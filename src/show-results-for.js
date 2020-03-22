@@ -50,4 +50,4 @@ let addShowResultsFor = (correction, original) => {
   replaceShowResultsFor(correction, original)
 }
 
-displayMethods.showResultsFor = addShowResultsFor
+DISPLAY_METHODS.showResultsFor = addShowResultsFor

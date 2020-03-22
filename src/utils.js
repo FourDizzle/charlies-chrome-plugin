@@ -1,7 +1,5 @@
 const GOOGLE_SEARCH_URL = 'https://www.google.com/search?q='
 
-let displayMethods = {}
-
 let decodeGoogleSearchVars = (str) => {
   let decode = decodeURIComponent(str)
   decode = decode.replace(/\+/g, ' ')

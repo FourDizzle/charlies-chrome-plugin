@@ -3,6 +3,8 @@ const SETTINGS = {
   modifyFn: 'showResultsFor',
 }
 
+let DISPLAY_METHODS = {}
+
 let hasFinishedLoading = false
 
 getReplacementSearchQuery(query => {

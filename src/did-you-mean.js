@@ -44,4 +44,4 @@ let addDidYouMean = (correction, original) => {
   replaceDidYouMean(correction, original)
 }
 
-displayMethods.didYouMean = addDidYouMean
+DISPLAY_METHODS.didYouMean = addDidYouMean
