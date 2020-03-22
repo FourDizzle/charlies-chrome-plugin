@@ -5,19 +5,25 @@
     "128": "images/icon-128.png"
   },
   "description": "Increases search speed and accuracy with smart caching and predictive AI.",
+  "options_page": "options.html",
   "permissions": ["storage"],
-  "browser_action": {
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "page_action": {
     "default_title": "Chrome Enhancer",
     "default_icon": {
       "32": "images/icon-128.png"
-    }
+    },
+    "default_popup": "popup.html"
   },
   "content_scripts": [
     {
       "run_at": "document_start",
       "matches": [ "*://*.google.com/search*" ],
       "js": [
-        "settings.js",
+        "src/setup.js",
         "src/utils.js",
         "src/did-you-mean.js",
         "src/show-results-for.js",
