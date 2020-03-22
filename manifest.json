@@ -1,0 +1,29 @@
+{
+  "name": "Google Search Enhancer",
+  "version": "0.1",
+  "icons": {
+    "128": "images/icon-128.png"
+  },
+  "description": "Increases search speed and accuracy with smart caching and predictive AI.",
+  "permissions": ["storage"],
+  "browser_action": {
+    "default_title": "Chrome Enhancer",
+    "default_icon": {
+      "32": "images/icon-128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "run_at": "document_start",
+      "matches": [ "*://*.google.com/search*" ],
+      "js": [
+        "settings.js",
+        "src/utils.js",
+        "src/did-you-mean.js",
+        "src/show-results-for.js",
+        "content.js"
+      ]
+    }
+  ],
+  "manifest_version": 2
+}
