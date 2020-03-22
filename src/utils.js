@@ -90,38 +90,20 @@ let getQueryVariable = (variable) => {
   return(false);
 }
 
-let getReplacementSearchQuery = (callback) => {
-  chrome.storage.sync.get('search', (items) => {
+let getValue = (name, callback) => {
+  chrome.storage.sync.get(name, (items) => {
     if (!chrome.runtime.error) {
-      if (typeof callback === 'function') callback(items.search)
+      if (typeof callback === 'function') callback(items[name])
     } else {
       console.log('Runtime error.')
     }
   })
 }
 
-let setReplacementSearchQuery = (replace, callback) => {
-  chrome.storage.sync.set({ 'search': replace }, () => {
-    if (chrome.runtime.error) {
-      console.log('Runtime error.')
-    } else if (typeof callback === 'function') {
-      callback(replace)
-    }
-  })
-}
-
-let getDisplayMethod = (callback) => {
-  chrome.storage.sync.get('method', (items) => {
-    if (!chrome.runtime.error) {
-      if (typeof callback === 'function') callback(items.method)
-    } else {
-      console.log('Runtime error.')
-    }
-  })
-}
-
-let setDisplayMethod = (method, callback) => {
-  chrome.storage.sync.set({ 'method': method }, () => {
+let setValue = (name, val, callback) => {
+  let object = {}
+  object[name] = val
+  chrome.storage.sync.set(object, () => {
     if (chrome.runtime.error) {
       console.log('Runtime error.')
     } else if (typeof callback === 'function') {
@@ -129,6 +111,11 @@ let setDisplayMethod = (method, callback) => {
     }
   })
 }
+
+let getReplacementSearchQuery = getValue.bind(null, 'search')
+let getDisplayMethod = getValue.bind(null, 'method')
+let setDisplayMethod = setValue.bind(null, 'method')
+let setReplacementSearchQuery = setValue.bind(null, 'search')
 
 let emitEvent = (el, eventName, callback) => {
   let event = document.createEvent('Event')
