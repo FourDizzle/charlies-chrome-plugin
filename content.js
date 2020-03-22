@@ -1,12 +1,5 @@
 let doPrank = (correction, modifyPageFn) => {
-  console.log('fun', modifyPageFn)
-  let shouldDoPrank = getQueryVariable('doprank')
-  if (shouldDoPrank === 'false') {
-    return;
-  }
-
-  console.log('replacing with:', SETTINGS.replaceWord, new Date())
-  console.log('modifing with:', SETTINGS.modifyFn, new Date())
+  if (getQueryVariable('doprank') === 'false') return;
 
   let original = getQueryVariable('prankorigterm')
 
@@ -14,9 +7,9 @@ let doPrank = (correction, modifyPageFn) => {
   if (searchTerm !== correction) {
     redirect(correction, searchTerm)
   } else if (original) {
-    document.addEventListener("DOMContentLoaded", function(){
+    document.addEventListener("DOMContentLoaded", () => {
       modifyPageFn(correction, original)
-    });
+    })
   }
 }
 
@@ -25,5 +18,5 @@ if (hasFinishedLoading) {
 } else {
   window.addEventListener('finish-load', function (e) {
     doPrank(SETTINGS.replaceWord, modifyFunctions[SETTINGS.modifyFn])
-  }, false);
+  }, false)
 }

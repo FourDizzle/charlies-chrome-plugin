@@ -1,15 +1,7 @@
+const DEFAULT_QUERY = 'You\'ve been pranked!'
+const DEFAULT_METHOD = 'showResultsFor'
+
 chrome.runtime.onInstalled.addListener(() => {
-
-  chrome.storage.sync.set({ 'search' : 'You\'ve been pranked!' }, () => {
-    if (chrome.runtime.error) {
-      console.log('Runtime error.');
-    }
-  });
-
-  chrome.storage.sync.set({ 'method' : 'didYouMean' }, () => {
-    if (chrome.runtime.error) {
-      console.log('Runtime error.');
-    }
-  });
-
-});
+  setReplacementSearchQuery(DEFAULT_QUERY)
+  setDisplayMethod(DEFAULT_METHOD)
+})

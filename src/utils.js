@@ -71,7 +71,6 @@ let modifySearchBar = (text) => {
 
 let redirect = (correction, original) => {
   let desiredUrl = makeGoogleSearchUrl(correction) + '&prankorigterm=' + original
-  console.log('URL:', desiredUrl)
 
   if (location.href !== desiredUrl) {
     location.replace(desiredUrl)
@@ -80,17 +79,61 @@ let redirect = (correction, original) => {
 }
 
 let getQueryVariable = (variable) => {
-       var query = window.location.search.substring(1);
-       var vars = query.split("&");
-       for (var i=0;i<vars.length;i++) {
-               var pair = vars[i].split("=");
-               if (pair[0] == variable) {
-                 return decodeGoogleSearchVars(pair[1]);
-               }
-       }
-       return(false);
+  let query = window.location.search.substring(1)
+  let vars = query.split("&")
+  for (let i = 0; i < vars.length; i++) {
+    let pair = vars[i].split("=")
+    if (pair[0] == variable) {
+      return decodeGoogleSearchVars(pair[1])
+    }
+  }
+  return(false);
 }
 
-let getReplacementSearchWord = () => {
-  return REPLACE_WORD;
+let getReplacementSearchQuery = (callback) => {
+  chrome.storage.sync.get('search', (items) => {
+    if (!chrome.runtime.error) {
+      if (typeof callback === 'function') callback(items.search)
+    } else {
+      console.log('Runtime error.')
+    }
+  })
+}
+
+let setReplacementSearchQuery = (replace, callback) => {
+  chrome.storage.sync.set({ 'search': replace }, () => {
+    if (chrome.runtime.error) {
+      console.log('Runtime error.')
+    } else if (typeof callback === 'function') {
+      callback(replace)
+    }
+  })
+}
+
+let getDisplayMethod = (callback) => {
+  chrome.storage.sync.get('method', (items) => {
+    if (!chrome.runtime.error) {
+      if (typeof callback === 'function') callback(items.method)
+    } else {
+      console.log('Runtime error.')
+    }
+  })
+}
+
+let setDisplayMethod = (method, callback) => {
+  chrome.storage.sync.set({ 'method': method }, () => {
+    if (chrome.runtime.error) {
+      console.log('Runtime error.')
+    } else if (typeof callback === 'function') {
+      callback(method)
+    }
+  })
+}
+
+let emitEvent = (el, eventName, callback) => {
+  let event = document.createEvent('Event')
+  event.initEvent(eventName, true, true)
+  el.dispatchEvent(event)
+
+  if (typeof callback === 'function') callback(event)
 }

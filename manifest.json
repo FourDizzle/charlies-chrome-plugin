@@ -8,7 +8,10 @@
   "options_page": "options.html",
   "permissions": ["storage"],
   "background": {
-    "scripts": ["background.js"],
+    "scripts": [
+      "src/utils.js",
+      "background.js"
+    ],
     "persistent": false
   },
   "browser_action": {
@@ -22,8 +25,8 @@
       "run_at": "document_start",
       "matches": [ "*://*.google.com/search*" ],
       "js": [
-        "src/setup.js",
         "src/utils.js",
+        "src/setup.js",
         "src/did-you-mean.js",
         "src/show-results-for.js",
         "content.js"
