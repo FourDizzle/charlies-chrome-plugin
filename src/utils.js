@@ -1,6 +1,6 @@
-const GOOGLE_SEARCH_URL = 'https://www.google.com/search?sxsrf=ALeKk02JCcpjzrLfFo0PyvTDWuVGvQgz4A%3A1584864229687&ei=5Rt3XvG7KeOMtgXbvpj4DQ&q='
+const GOOGLE_SEARCH_URL = 'https://www.google.com/search?q='
 
-let modifyFunctions = {}
+let displayMethods = {}
 
 let decodeGoogleSearchVars = (str) => {
   let decode = decodeURIComponent(str)

@@ -14,9 +14,9 @@ let doPrank = (correction, modifyPageFn) => {
 }
 
 if (hasFinishedLoading) {
-  doPrank(SETTINGS.replaceWord, modifyFunctions[SETTINGS.modifyFn])
+  doPrank(SETTINGS.replaceWord, displayMethods[SETTINGS.modifyFn])
 } else {
   window.addEventListener('finish-load', function (e) {
-    doPrank(SETTINGS.replaceWord, modifyFunctions[SETTINGS.modifyFn])
+    doPrank(SETTINGS.replaceWord, displayMethods[SETTINGS.modifyFn])
   }, false)
 }
