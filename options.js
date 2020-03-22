@@ -5,6 +5,7 @@ let settings = {
     isLoaded: false,
     get: getReplacementSearchQuery,
     value: null,
+    id: 'search',
   },
   method: {
     el: null,
@@ -12,13 +13,25 @@ let settings = {
     isLoaded: false,
     get: getDisplayMethod,
     value: null,
+    id: 'display',
   },
-  isLoaded: false,
+  image: {
+    el: null,
+    changed: false,
+    isLoaded: false,
+    get: getImageSearch,
+    value: null,
+    id: 'imgsearch',
+  }
 }
 
+let isEverythingLoaded = false
+
 let checkLoadStatus = () => {
-  if (settings.query.isLoaded && settings.method.isLoaded) {
-    settings.isLoaded = true
+  let loadStatus = true
+  Object.keys(settings).map(item => { if (!settings[item].isLoaded) loadStatus = false })
+  if (loadStatus) {
+    isEverythingLoaded = true
     emitEvent(document.body, 'finish-load')
   }
 }
@@ -26,14 +39,19 @@ let checkLoadStatus = () => {
 let addChangeListener = item => {
   settings[item].el.addEventListener('change', (e) => {
     settings[item].changed = true
-    settings[item].value = settings[item].el.value
+    if (settings[item].el.checked) {
+      settings[item].value = settings[item].el.click
+    } else {
+      settings[item].value = settings[item].el.value
+    }
   })
 }
 
 let loadSetting = item => {
   settings[item].get(val => {
-    if (!settings[item].changed) {
-      settings[item].el.value = val
+    let attr = (settings[item].el.type === 'checkbox') ? 'checked' : 'value'
+    if (!settings[item].changed) {]
+      settings[item].el[attr] = val
       settings[item].value = val
     }
     settings[item].isLoaded = true
@@ -44,22 +62,20 @@ let loadSetting = item => {
 let saveData = e => {
   setReplacementSearchQuery(settings.query.el.value)
   setDisplayMethod(settings.method.el.value)
+  setImageSearch(settings.image.el.checked)
   alert('Saved Settings')
   window.close()
 }
 
 document.body.onload = () => {
-  settings.query.el = document.getElementById('search')
-  settings.method.el = document.getElementById('display')
-
-  addChangeListener('query')
-  addChangeListener('method')
-
-  loadSetting('query')
-  loadSetting('method')
+  Object.keys(settings).map(item => {
+    settings[item].el = document.getElementById(settings[item].id)
+    addChangeListener(item)
+    loadSetting(item)
+  })
 
   document.getElementById('set').onclick = e => {
-    if (settings.isLoaded) {
+    if (isEverythingLoaded) {
       saveData(e)
     } else {
       document.body.addEventListener('finish-load', e => saveData(e))

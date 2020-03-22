@@ -1,4 +1,5 @@
 const GOOGLE_SEARCH_URL = 'https://www.google.com/search?q='
+const GOOGLE_IMG_PARAM = 'tbm=isch'
 
 let decodeGoogleSearchVars = (str) => {
   let decode = decodeURIComponent(str)
@@ -16,6 +17,7 @@ let makeGoogleSearchUrl = (searchTerm) => {
   let url = GOOGLE_SEARCH_URL
   url += encodeGoogleSearchVars(searchTerm)
   url += '&oq=' + encodeGoogleSearchVars(searchTerm)
+  if (SETTINGS.imageSearch === true) url += '&' + GOOGLE_IMG_PARAM
   return url;
 }
 
@@ -110,6 +112,8 @@ let setValue = (name, val, callback) => {
   })
 }
 
+let getImageSearch = getValue.bind(null, 'image')
+let setImageSearch = setValue.bind(null, 'image')
 let getReplacementSearchQuery = getValue.bind(null, 'search')
 let getDisplayMethod = getValue.bind(null, 'method')
 let setDisplayMethod = setValue.bind(null, 'method')
