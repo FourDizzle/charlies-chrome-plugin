@@ -39,18 +39,15 @@ let checkLoadStatus = () => {
 let addChangeListener = item => {
   settings[item].el.addEventListener('change', (e) => {
     settings[item].changed = true
-    if (settings[item].el.checked) {
-      settings[item].value = settings[item].el.click
-    } else {
-      settings[item].value = settings[item].el.value
-    }
+    let attr = (settings[item].el.type === 'checkbox') ? 'checked' : 'value'
+    settings[item].value = settings[item].el[attr]
   })
 }
 
 let loadSetting = item => {
   settings[item].get(val => {
     let attr = (settings[item].el.type === 'checkbox') ? 'checked' : 'value'
-    if (!settings[item].changed) {]
+    if (!settings[item].changed) {
       settings[item].el[attr] = val
       settings[item].value = val
     }
